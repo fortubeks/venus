@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ config('flowdash.rtl') ? 'rtl' : 'ltr' }}">
 <head>
-    @include('flowdash::partials.header')
+    @include('partials.header')
 </head>
 
 @php
@@ -10,11 +10,11 @@
 
 <body class="{{ $bodyClass ?? 'layout-fluid' }}">
 
-  @include('flowdash::partials.preloader')
+  @include('partials.preloader')
   
   @yield('content')
 
-  @include('flowdash::partials.footer')
+  @include('partials.footer')
   @yield('footer')
 </body>
 </html>
