@@ -17,7 +17,14 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('phone')->nullable();
+            $table->string('user_type');
+            $table->foreignId('hotel_id')->nullable();
             $table->rememberToken();
+            $table->softDeletes();
+        });
+        Schema::table('users', function (Blueprint $table){
+            $table->foreignId('user_account_id')->references('id')->on('users');
             $table->timestamps();
         });
     }
