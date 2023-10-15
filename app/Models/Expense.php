@@ -20,7 +20,7 @@ class Expense extends Model
         return $this->hasMany('App\Models\ExpensePayment');
     }
     public function category(){
-        return $this->belongsTo('App\Models\ExpenseCategory','id');
+        return $this->belongsTo('App\Models\ExpenseCategory','category_id');
     }
     public function items(){
         return $this->hasMany('App\Models\ExpenseItem');

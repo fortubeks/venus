@@ -171,15 +171,6 @@
         updateAmount(inputCounter);
       });
     });
-function rateChange(obj){
-qty = document.getElementById('qty').value;
-rate = document.getElementById('rate').value;
-amount_input = document.getElementById('amount');
-amount = qty*rate;
-round_figure = Math.round (amount / 10) * 10;
-amount_input.value = round_figure;
-
-}
 </script>
 <script>
   let inputCounter = 0;

@@ -115,7 +115,6 @@
               </div>
               <div class="col-md-12">
                   <label>{{ __('Date of payment') }}</label>
-                  <label for="flatpickrSample01">Date</label>
                 <input type="date" class="form-control @error('date_of_payment') is-invalid @enderror" name="date_of_payment">
               </div>
               <div class="col-md-12">

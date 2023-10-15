@@ -51,7 +51,8 @@ class ExpenseController extends Controller
         ['hotel_id' => auth()->user()->hotel_id,
         'expense_date' => $request->expense_date,
         'amount' => $amount,
-        'note' => $request->note
+        'note' => $request->note,
+        'category_id' => $request->category_id
         ]);
         foreach($request->description as $key => $description){
             if($request->description[$key] === null){

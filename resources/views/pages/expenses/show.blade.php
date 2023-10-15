@@ -130,28 +130,28 @@
           <div class="col">
             <div class="form-group">
               <label for="rooms">Quantity</label>
-              <input id="{{_('qty_'.$key)}}" name="qty[]" type="number" onkeyup="updateAmount(<?php echo $key ?>)" inputmode="decimal" min="0" step="any" class="form-control @error('qty') is-invalid @enderror" placeholder="Qty" value="{{ old('qty') ?? $item->qty }}">
+              <input id="{{_('qty'.$key)}}" name="qty[]" type="number" onkeyup="updateAmount(<?php echo $key ?>)" inputmode="decimal" min="0" step="any" class="form-control @error('qty') is-invalid @enderror" placeholder="Qty" value="{{ old('qty') ?? $item->qty }}">
               @include('alerts.error-feedback', ['field' => 'qty'])
             </div>
           </div>
           <div class="col">
             <div class="form-group">
               <label for="rooms">Rate</label>
-              <input id="{{_('rate_'.$key)}}" name="rate[]" type="number" onkeyup="updateAmount(<?php echo $key ?>)" inputmode="decimal" min="0" step="any" class="form-control @error('rate') is-invalid @enderror" placeholder="Rate" value="{{ old('rate') ?? $item->rate }}">
+              <input id="{{_('rate'.$key)}}" name="rate[]" type="number" onkeyup="updateAmount(<?php echo $key ?>)" inputmode="decimal" min="0" step="any" class="form-control @error('rate') is-invalid @enderror" placeholder="Rate" value="{{ old('rate') ?? $item->rate }}">
               @include('alerts.error-feedback', ['field' => 'rate'])
             </div>
           </div>
           <div class="col">
             <div class="form-group">
               <label for="rooms">Amount</label>
-              <input id="{{_('amount_'.$key)}}" name="amount[]" type="number" class="form-control money @error('amount') is-invalid @enderror" placeholder="Amount" value="{{ old('amount') ?? $item->amount }}">
+              <input id="{{_('amount'.$key)}}" name="amount[]" type="number" class="form-control money @error('amount') is-invalid @enderror" placeholder="Amount" value="{{ old('amount') ?? $item->amount }}">
               @include('alerts.error-feedback', ['field' => 'amount'])
             </div>
           </div>
           <div class="col">
             <div class="form-group">
               <label for="rooms">Unit Qty</label>
-              <input id="{{_('unit_qty_'.$key)}}" name="unit_qty[]" type="number" class="form-control money @error('unit_qty') is-invalid @enderror" placeholder="Unit Qty" value="{{ old('unit_qty') ?? $item->unit_qty }}">
+              <input id="{{_('unit_qty'.$key)}}" name="unit_qty[]" type="number" class="form-control money @error('unit_qty') is-invalid @enderror" placeholder="Unit Qty" value="{{ old('unit_qty') ?? $item->unit_qty }}">
               @include('alerts.error-feedback', ['field' => 'unit_qty'])
             </div>
           </div>
@@ -178,6 +178,7 @@
     @method('Delete')
     @csrf
 </form>
+
 @endsection
 
 @section('head')
@@ -190,6 +191,7 @@
 <!-- Flatpickr -->
 <script src="{{ url('vendor/flatpickr/flatpickr.min.js') }}" defer></script>
 <script src="{{ url('js/flatpickr.js') }}" defer></script>
+
 @endsection
 
 <script>
@@ -214,7 +216,7 @@
         // Attach event handlers for the new input fields
         newInput.find("input[type='number']").on('keyup', function() {
           var index = $(this).attr('id').split('_')[1];
-          updateAmount(index);
+          updateAmountNewInputs(index);
         });
 
         // Attach a click event to the remove button
@@ -228,32 +230,31 @@
   
 
         // Trigger an initial update of the amount for the new input
-        updateAmount(inputCounter);
+        updateAmountNewInputs(inputCounter);
       });
       var category = $('#category').attr("data-category");
       $('#category option[value='+category+']').attr('selected','selected');
       var supplier = $('#supplier').attr("data-supplier");
       $('#supplier option[value='+supplier+']').attr('selected','selected');
     });
-function rateChange(obj){
-qty = document.getElementById('qty').value;
-rate = document.getElementById('rate').value;
-amount_input = document.getElementById('amount');
-amount = qty*rate;
-round_figure = Math.round (amount / 10) * 10;
-amount_input.value = round_figure;
 
-}
 </script>
 <script>
   let inputCounter = <?php echo count($expense->items) - 1 ?>;
 
   function updateAmount(index) {
+    var qty = parseFloat($("#qty" + index).val()) || 0;
+    var rate = parseFloat($("#rate" + index).val()) || 0;
+    var amount = qty * rate;
+    $("#amount" + index).val(amount.toFixed(2)); // Format the amount as needed
+    $("#unitQty" + index).val(qty); // set unit qty
+  }
+  function updateAmountNewInputs(index) {
     var qty = parseFloat($("#qty_" + index).val()) || 0;
     var rate = parseFloat($("#rate_" + index).val()) || 0;
     var amount = qty * rate;
     $("#amount_" + index).val(amount.toFixed(2)); // Format the amount as needed
+    $("#unitQty_" + index).val(qty); // set unit qty
   }
 
-  
 </script>
