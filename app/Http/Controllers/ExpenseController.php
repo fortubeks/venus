@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Expense;
 use App\Models\ExpenseCategory;
+use App\Models\ExpenseExpenseItem;
 use App\Models\ExpenseItem;
 use App\Models\ExpensePayment;
 use App\Models\Item;
@@ -51,6 +52,7 @@ class ExpenseController extends Controller
         ['hotel_id' => auth()->user()->hotel_id,
         'expense_date' => $request->expense_date,
         'amount' => $amount,
+        'supplier_id' => $request->supplier_id,
         'note' => $request->note,
         'category_id' => $request->category_id
         ]);
@@ -59,18 +61,18 @@ class ExpenseController extends Controller
                 continue;
             }
             //if expense category doesn't have item, create item and use the id to create expense item
-            $item = Item::where('expense_category_id',$request->category_id)->where('name',$description)->first();
+            $item = ExpenseItem::where('expense_category_id',$request->category_id)->where('name',$description)->first();
             if($item === null){
-                $item = Item::create([
+                $item = ExpenseItem::create([
                     'hotel_id' => auth()->user()->hotel_id,
                     'name' => $description,
                     'expense_category_id' => $request->category_id
                 ]);
             }
             
-            ExpenseItem::create([
+            ExpenseExpenseItem::create([
                 'expense_id' => $expense->id,
-                'item_id' => $item->id,
+                'expense_item_id' => $item->id,
                 'hotel_id' => auth()->user()->hotel_id,
                 'qty' => $request->qty[$key],
                 'rate' => $request->rate[$key],
@@ -81,7 +83,7 @@ class ExpenseController extends Controller
         if($request->hasFile('uploaded_file')){
             
         }
-        return redirect('expenses')->with('status','Expense added successfully');
+        return redirect('expenses')->with('success','Expense added successfully');
     }
 
     /**
@@ -119,6 +121,9 @@ class ExpenseController extends Controller
         foreach($request->amount as $_amount){
             $amount += $_amount;
         }
+        foreach($request->new_item_amount as $_amount_){
+            $amount += $_amount_;
+        }
         $expense->update(
         ['category_id' => $request->category_id,
         'expense_date' => $request->expense_date,
@@ -142,18 +147,18 @@ class ExpenseController extends Controller
                 continue;
             }
             
-            $item = Item::where('expense_category_id',$request->category_id)->where('name',$request->new_item_description[$_key])->first();
+            $item = ExpenseItem::where('expense_category_id',$request->category_id)->where('name',$request->new_item_description[$_key])->first();
             if($item === null){
-                $item = Item::create([
+                $item = ExpenseItem::create([
                     'hotel_id' => auth()->user()->hotel_id,
                     'name' => $request->new_item_description[$_key],
                     'expense_category_id' => $request->category_id
                 ]);
             }
             
-            ExpenseItem::create([
+            ExpenseExpenseItem::create([
                 'expense_id' => $expense->id,
-                'item_id' => $item->id,
+                'expense_item_id' => $item->id,
                 'hotel_id' => auth()->user()->hotel_id,
                 'qty' => $request->new_item_qty[$_key],
                 'rate' => $request->new_item_rate[$_key],

@@ -1,10 +1,10 @@
 @extends("layouts.default", [
-  'title' => 'Expense Categories',
+  'title' => 'Store Items',
   'breadcrumb' => [[
-    'title' => 'Expense Categories'
+    'title' => 'Store Items'
   ]],
-  'new_button_label' => 'New Expense Category',
-  'new_button_slug' => '/expense-categories/create'
+  'new_button_label' => 'New Store Item',
+  'new_button_slug' => '/store-items/create'
 ])
 
 @section('content')
@@ -32,24 +32,27 @@
           <tr>
             <th style="width: 30px;" class="text-center">#ID</th>
             <th>Name</th>
-            <th class="text-center">Parent Category</th>
+            <th class="text-center">Purchase Category</th>
+            <th class="text-center">Quantity in Stock</th>
           </tr>
         </thead>
         <tbody class="list" id="">
-          @foreach($expense_categories ?? [] as $expense_category)
+          @foreach($store_items ?? [] as $store_item)
           <tr>
             <td>
               <div class="badge badge-soft-dark">#{{ 1 + $loop->index }}</div>
             </td>
             <td>
-              <a href="{{url('expense-categories/'.$expense_category->id)}}">{{ $expense_category->name ?? '' }}</a>
+              <a href="{{url('store-items/'.$store_item->id)}}">{{ $store_item->name ?? '' }}</a>
             </td>
             <td class="text-center">
-              {{ $expense_category->parentCategory->name ?? '' }}
+              {{ $store_item->category() ?? '' }}
             </td>
-            
+            <td class="text-center">
+              {{ $store_item->qty ?? '' }}
+            </td>
             <td class="text-right">
-              <a href="{{url('expense-categories/'.$expense_category->id)}}" class="btn btn-sm btn-primary">EDIT</a>
+              <a href="{{url('store-items/'.$store_item->id)}}" class="btn btn-sm btn-primary">EDIT</a>
             </td>
           </tr>
           @endforeach
@@ -59,7 +62,7 @@
 
     @if($pagination ?? '' !== false)
     <div class="card-body text-right">
-      {{$expense_categories->links()}}
+      {{$store_items->links()}}
     </div>
     @endif
   </div>

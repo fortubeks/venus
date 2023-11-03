@@ -30,4 +30,16 @@
             <span class="sidebar-menu-text">Suppliers</span>
         </a>
     </li>
+    <li class="sidebar-menu-item {{ activeClass('users') }}">
+        <a class="sidebar-menu-button" href="{{ url('purchases') }}">
+            <i class="sidebar-menu-icon sidebar-menu-icon--left material-icons">person</i>
+            <span class="sidebar-menu-text">Purchases</span>
+        </a>
+    </li>
+    <li class="sidebar-menu-item {{ activeClass('users') }}">
+        <a class="sidebar-menu-button" href="{{ url('store-items') }}">
+            <i class="sidebar-menu-icon sidebar-menu-icon--left material-icons">person</i>
+            <span class="sidebar-menu-text">Store Items</span>
+        </a>
+    </li>
 </ul>

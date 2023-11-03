@@ -2,7 +2,10 @@
 
 use App\Models\Expense;
 use App\Models\ExpenseCategory;
+use App\Models\ExpenseItem;
 use App\Models\Item;
+use App\Models\PurchaseItem;
+use App\Models\StoreItem;
 use App\Models\Supplier;
 use Illuminate\Support\Facades\DB;
 
@@ -55,8 +58,11 @@ function getModelList($model){
   if($model == 'suppliers'){
     $model_list = Supplier::where('hotel_id',auth()->user()->hotel_id)->get();
   }
-  if($model == 'items'){
-    $model_list = Item::where('hotel_id',auth()->user()->hotel_id)->get();
+  if($model == 'expense-items'){
+    $model_list = ExpenseItem::where('hotel_id',auth()->user()->hotel_id)->get();
+  }
+  if($model == 'store-items'){
+    $model_list = StoreItem::where('hotel_id',auth()->user()->hotel_id)->get();
   }
   return $model_list;
 }

@@ -11,16 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('incoming_items', function (Blueprint $table) {
+        Schema::create('store_item_store_outgoings', function (Blueprint $table) {
             $table->id();
             $table->foreignId('hotel_id');
-            $table->foreignId('item_id');
-            $table->foreignId('expense_item_id')->nullable();
+            $table->foreignId('store_outgoing_id');
+            $table->foreignId('store_item_id');
             $table->double('qty');
-            $table->double('unit_cost');
-            $table->double('qty_kg')->nullable();
             $table->string('note')->nullable();
-            $table->date('expiry_date')->nullable();
             $table->timestamps();
         });
     }
@@ -30,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('incoming_items');
+        Schema::dropIfExists('store_issue_store_items');
     }
 };

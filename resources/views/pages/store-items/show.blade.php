@@ -1,7 +1,7 @@
 @extends("layouts.default", [
-  'title' => 'Expense Categories',
+  'title' => 'Store Item',
   'breadcrumb' => [[
-    'title' => 'Expense Categories'
+    'title' => 'Store Item'
   ]],
   'new_button_label' => false
 ])
@@ -9,29 +9,33 @@
 @section('content')
 <div class="{{ $containerClass ?? 'container' }} page__container">
 <div class="card card-form">
-    <form action="{{url('expense-categories/'.$expense_category->id)}}" method="post" autocomplete="off">
+    <form action="{{url('store-items/'.$store_item->id)}}" method="post" autocomplete="off">
     @csrf @method('put')
     <div class="row no-gutters">
       <div class="col-lg-4 card-body">
         <p><strong class="headings-color">Basic Information</strong></p>
-        <p class="text-muted">Edit your expense category.</p>
+        <p class="text-muted">Edit your store item.</p>
       </div>
       <div class="col-lg-8 card-form__body card-body">
         <div class="row">
           <div class="col">
             <div class="form-group">
               <label for="name">Name</label>
-              <input id="name" name="name" type="text" class="form-control @error('name') is-invalid @enderror" placeholder="Name" value="{{ $expense_category->name ?? old('name') }}">
+              <input id="name" name="name" type="text" class="form-control @error('name') is-invalid @enderror" placeholder="Name" value="{{ $store_item->name ?? old('name') }}">
               @include('alerts.error-feedback', ['field' => 'name'])
             </div>
           </div>
           <div class="col">
             <div class="form-group">
               <label for="rooms">Parent Category</label>
-              <select id="category" data-category="{{ $expense_category->parent_id }}" name="parent_id" class="custom-select">
-                @foreach(getModelList('expense-categories') as $_expense_category)
-                <option value="{{$_expense_category->id}}">{{$_expense_category->name}}</option>
-                @endforeach
+              <select id="category" data-category="{{ $store_item->purchase_category_id }}" name="purchase_category_id" class="custom-select">
+                <option value="1">Food</option>
+                <option value="2">Drink</option>
+                <option value="3">House Keeping</option>
+                <option value="4">Maintenance</option>
+                <option value="5">Staff</option>
+                <option value="6">Admin/Stationery</option>
+                <option value="7">Others</option>
               </select>
               @include('alerts.error-feedback', ['field' => 'category'])
             </div>
@@ -48,7 +52,7 @@
   </div>
   </form>
 </div>
-<form class="d-none" id="form-delete" action="{{url('expense-categories/'.$expense_category->id)}}" onsubmit="return confirm('Are you sure you want to delete this category?'); " method="post">
+<form class="d-none" id="form-delete" action="{{url('store-items/'.$store_item->id)}}" onsubmit="return confirm('Are you sure you want to delete this category?'); " method="post">
     @method('Delete')
     @csrf
 </form>

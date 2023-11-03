@@ -14,8 +14,10 @@ return new class extends Migration
         Schema::create('store_items', function (Blueprint $table) {
             $table->id();
             $table->foreignId('hotel_id');
-            $table->foreignId('item_id');
-            $table->double('qty');
+            $table->string('name');
+            $table->double('qty')->default(0);
+            $table->integer('purchase_category_id');//eg food, drinks, maintenance
+            $table->boolean('for_sale')->default(false);
             $table->timestamps();
         });
     }

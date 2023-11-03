@@ -20,4 +20,8 @@ class ExpenseCategory extends Model
     {
         return $this->hasMany('App\Models\ExpenseCategory');
     }
+    public function parentCategory()
+    {
+        return $this->belongsTo('App\Models\ExpenseCategory','parent_id');
+    }
 }

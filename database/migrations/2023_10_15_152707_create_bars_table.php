@@ -11,10 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('expense_items', function (Blueprint $table) {
+        Schema::create('bars', function (Blueprint $table) {
             $table->id();
             $table->foreignId('hotel_id');
-            $table->foreignId('expense_category_id');
             $table->string('name');
             $table->timestamps();
         });
@@ -25,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('expense_items');
+        Schema::dropIfExists('bars');
     }
 };

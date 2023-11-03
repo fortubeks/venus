@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('expense_items', function (Blueprint $table) {
+        Schema::create('store_outgoings', function (Blueprint $table) {
             $table->id();
             $table->foreignId('hotel_id');
-            $table->foreignId('expense_category_id');
-            $table->string('name');
+            $table->foreignId('outlet_id')->nullable();
+            $table->string('outlet_type');
+            $table->string('note')->nullable();
             $table->timestamps();
         });
     }
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('expense_items');
+        Schema::dropIfExists('store_issues');
     }
 };

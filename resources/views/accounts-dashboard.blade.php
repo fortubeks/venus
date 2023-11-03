@@ -38,6 +38,20 @@
         </div>
       </div>
     </div>
+    <div class="col-lg-3 col-md-4 card-group-row__col">
+      <div class="card card-group-row__card">
+        <div class="p-2 d-flex flex-row align-items-center">
+          <div class="avatar avatar-xs mr-2">
+            <span class="avatar-title rounded-circle text-center">
+              <i class="material-icons text-white icon-18pt">person_add</i> 
+            </span>
+          </div>
+          <a href="{{url('purchases')}}" class="text-dark">
+            <strong>Purchases</strong>
+          </a>
+        </div>
+      </div>
+    </div>
   </div>
 
   

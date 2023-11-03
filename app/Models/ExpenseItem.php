@@ -9,7 +9,7 @@ class ExpenseItem extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'expense_id','item_id','hotel_id','qty','rate','amount','unit_qty'
+        'hotel_id','name','expense_category_id'
     ];
     public function item(){
         return $this->belongsTo('App\Models\Item');

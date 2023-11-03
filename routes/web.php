@@ -25,6 +25,8 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::resource('suppliers', 'App\Http\Controllers\SupplierController');
 	Route::resource('expense-categories', 'App\Http\Controllers\ExpenseCategoryController');
 	Route::resource('expense-payments', 'App\Http\Controllers\ExpensePaymentController');
+	Route::resource('purchases', 'App\Http\Controllers\PurchaseController');
+	Route::resource('store-items', 'App\Http\Controllers\StoreItemController');
 
 	Route::post('/updatePassword', 'App\Http\Controllers\UserController@updatePassword');
 	

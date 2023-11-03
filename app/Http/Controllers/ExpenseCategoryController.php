@@ -75,7 +75,7 @@ class ExpenseCategoryController extends Controller
     public function update(Request $request, ExpenseCategory $expense_category)
     {
         $expense_category->update($request->all());
-        return redirect('expense-categories')->with('status','Category updated successfully');
+        return redirect('expense-categories')->with('success','Category updated successfully');
     }
 
     /**
@@ -84,8 +84,9 @@ class ExpenseCategoryController extends Controller
      * @param  \App\Models\ExpenseCategory  $expense_categories
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ExpenseCategory $expense_categories)
+    public function destroy(Request $request, ExpenseCategory $expense_category)
     {
-        //
+        $expense_category->delete();
+        return redirect('expense-categories')->with('success','Category deleted successfully');
     }
 }

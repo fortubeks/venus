@@ -1,7 +1,7 @@
 @extends("layouts.default", [
-  'title' => 'Expenses',
+  'title' => 'Purchases',
   'breadcrumb' => [[
-    'title' => 'Expenses'
+    'title' => 'Add To Inventory'
   ]],
   'new_button_label' => false
 ])
@@ -9,18 +9,22 @@
 @section('content')
 <div class="{{ $containerClass ?? 'container' }} page__container">
   <div class="card card-form">
-    <form action="{{url('expenses')}}" method="post" autocomplete="off">
+    <form action="{{url('purchases')}}" method="post" autocomplete="off">
     @csrf
     <div class="row no-gutters">
       <div class="col-lg card-form__body card-body">
         <div class="row">
           <div class="col">
             <div class="form-group">
-              <label for="phone">Expense Category</label>
+              <label for="phone">Category</label>
               <select id="category" class="form-select form-control" name="category_id">
-                  @foreach(getModelList('expense-categories') as $expense_category)
-                  <option value="{{$expense_category->id}}">{{$expense_category->name}}</option>
-                  @endforeach
+                <option value="1">Food</option>
+                <option value="2">Drink</option>
+                <option value="3">House Keeping</option>
+                <option value="4">Maintenance</option>
+                <option value="5">Staff</option>
+                <option value="6">Admin/Stationery</option>
+                <option value="7">Others</option>
               </select>
               @include('alerts.error-feedback', ['field' => 'category'])
             </div>
@@ -28,8 +32,8 @@
           <div class="col">
             <div class="form-group">
               <label for="flatpickrSample01">Date</label>
-              <input id="flatpickrSample01" type="text" class="form-control @error('expense_date') is-invalid @enderror" name="expense_date" data-toggle="flatpickr" value="today">
-              @include('alerts.error-feedback', ['field' => 'expense_date'])
+              <input id="flatpickrSample01" type="text" class="form-control @error('purchase_date') is-invalid @enderror" name="purchase_date" data-toggle="flatpickr" value="today">
+              @include('alerts.error-feedback', ['field' => 'purchase_date'])
             </div>
           </div>
           <div class="col">
@@ -53,6 +57,18 @@
           </div>
           <div class="col">
             <div class="form-group">
+              <label for="phone">Status</label>
+              <select id="status" class="form-select form-control" name="status">
+                  <option value="1">Received</option>
+                  <option value="2">Partial</option>
+                  <option value="3">Ordered</option>
+                  <option value="4">Pending</option>
+              </select>
+              @include('alerts.error-feedback', ['field' => 'status'])
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
               <label for="rooms">Note</label>
               <input id="" name="note" type="text" class="form-control @error('note') is-invalid @enderror" placeholder="Note" value="{{ old('note') }}">
               @include('alerts.error-feedback', ['field' => 'note'])
@@ -71,7 +87,7 @@
               @include('alerts.error-feedback', ['field' => 'description'])
 
               <datalist id="items">
-                @foreach(getModelList('expense-items') as $item)
+                @foreach(getModelList('store-items') as $item)
                 <option value="{{$item->name}}">
                 @endforeach
               </datalist>
@@ -82,6 +98,13 @@
               <label for="rooms">Quantity</label>
               <input id="qty_0" name="qty[]" type="number" onkeyup="updateAmount(0)" inputmode="decimal" min="0" step="any" class="form-control @error('qty') is-invalid @enderror" placeholder="Qty" value="{{ old('qty') }}">
               @include('alerts.error-feedback', ['field' => 'qty'])
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label for="rooms">Received</label>
+              <input id="received_0" name="received[]" type="number" onkeyup="updateAmount(0)" inputmode="decimal" min="0" step="any" class="form-control @error('received') is-invalid @enderror" placeholder="Received" value="{{ old('received') }}">
+              @include('alerts.error-feedback', ['field' => 'received'])
             </div>
           </div>
           <div class="col">

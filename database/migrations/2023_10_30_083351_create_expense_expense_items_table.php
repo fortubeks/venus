@@ -11,13 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('outgoing_items', function (Blueprint $table) {
+        Schema::create('expense_expense_items', function (Blueprint $table) {
             $table->id();
             $table->foreignId('hotel_id');
-            $table->foreignId('item_id');
-            $table->foreignId('department_id')->nullable();
+            $table->foreignId('expense_id');
+            $table->foreignId('expense_item_id');
             $table->double('qty');
-            $table->string('note')->nullable();
+            $table->double('rate');
+            $table->double('amount');
+            $table->double('unit_qty');
             $table->timestamps();
         });
     }
@@ -27,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('outgoing_items');
+        Schema::dropIfExists('expense_expense_items');
     }
 };

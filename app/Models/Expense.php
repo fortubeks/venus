@@ -23,7 +23,7 @@ class Expense extends Model
         return $this->belongsTo('App\Models\ExpenseCategory','category_id');
     }
     public function items(){
-        return $this->hasMany('App\Models\ExpenseItem');
+        return $this->hasMany('App\Models\ExpenseExpenseItem');
     }
     public function paymentStatus(){
         $status = "Not Paid";

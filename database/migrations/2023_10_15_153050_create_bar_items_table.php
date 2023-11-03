@@ -11,11 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('items', function (Blueprint $table) {
+        Schema::create('bar_items', function (Blueprint $table) {
             $table->id();
             $table->foreignId('hotel_id');
+            $table->foreignId('bar_id');
+            $table->foreignId('item_id')->nullable();
             $table->string('name');
-            $table->foreignId('expense_category_id')->nullable();
+            $table->double('qty')->default(0);
+            $table->double('price');
+            $table->boolean('is_inventory');
             $table->timestamps();
         });
     }
@@ -25,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('items');
+        Schema::dropIfExists('bar_items');
     }
 };

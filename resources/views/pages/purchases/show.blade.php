@@ -1,27 +1,30 @@
 @extends("layouts.default", [
-  'title' => 'Expenses',
+  'title' => 'Purchases',
   'breadcrumb' => [[
-    'title' => 'Expenses'
+    'title' => 'Purchases'
   ]],
   'new_button_label' => false
 ])
 
 @section('content')
-@include('alerts.feedback')
 <div class="{{ $containerClass ?? 'container' }} page__container">
   <div class="card card-form">
-    <form action="{{url('expenses/'.$expense->id)}}" method="post" autocomplete="off">
+    <form action="{{url('purchases/'.$purchase->id)}}" method="post" autocomplete="off">
     @csrf @method('put')
     <div class="row no-gutters">
       <div class="col-lg card-form__body card-body">
         <div class="row">
           <div class="col">
             <div class="form-group">
-              <label for="phone">Expense Category</label>
-              <select id="category" data-category="{{$expense->category->id}}" class="form-select form-control" name="category_id">
-                  @foreach(getModelList('expense-categories') as $expense_category)
-                  <option value="{{$expense_category->id}}">{{$expense_category->name}}</option>
-                  @endforeach
+              <label for="phone">Category</label>
+              <select id="category" data-category="{{$purchase->category_id}}" class="form-select form-control" name="category_id">
+                <option value="1">Food</option>
+                <option value="2">Drink</option>
+                <option value="3">House Keeping</option>
+                <option value="4">Maintenance</option>
+                <option value="5">Staff</option>
+                <option value="6">Admin/Stationery</option>
+                <option value="7">Others</option>
               </select>
               @include('alerts.error-feedback', ['field' => 'category'])
             </div>
@@ -29,14 +32,14 @@
           <div class="col">
             <div class="form-group">
               <label for="flatpickrSample01">Date</label>
-              <input id="flatpickrSample01" type="text" class="form-control @error('expense_date') is-invalid @enderror" name="expense_date" data-toggle="flatpickr" value="{{$expense->expense_date}}">
-              @include('alerts.error-feedback', ['field' => 'expense_date'])
+              <input id="flatpickrSample01" type="text" class="form-control @error('purchase_date') is-invalid @enderror" name="purchase_date" data-toggle="flatpickr" value="{{$purchase->purchase_date}}">
+              @include('alerts.error-feedback', ['field' => 'purchase_date'])
             </div>
           </div>
           <div class="col">
             <div class="form-group">
               <label for="phone">Supplier</label>
-              <select id="supplier" data-supplier="{{$expense->supplier_id ?? 0}}" class="form-select form-control" name="supplier_id">
+              <select id="supplier" data-supplier="{{$purchase->supplier_id ?? 0}}" class="form-select form-control" name="supplier_id">
                   <option value=""></option>
                   @foreach(getModelList('suppliers') as $supplier)
                   <option value="{{$supplier->id}}">{{$supplier->name}}</option>
@@ -54,9 +57,27 @@
           </div>
           <div class="col">
             <div class="form-group">
+              <label for="phone">Status</label>
+              <select id="status" data-status="" class="form-select form-control" name="status">
+                  <option value="1">Received</option>
+                  <option value="2">Partial</option>
+                  <option value="3">Ordered</option>
+                  <option value="4">Pending</option>
+              </select>
+              @include('alerts.error-feedback', ['field' => 'status'])
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
               <label for="rooms">Note</label>
-              <input id="" name="note" type="text" class="form-control @error('note') is-invalid @enderror" placeholder="Note" value="{{ old('note') ?? $expense->note}}">
+              <input id="" name="note" type="text" class="form-control @error('note') is-invalid @enderror" placeholder="Note" value="{{ old('note') ?? $purchase->note}}">
               @include('alerts.error-feedback', ['field' => 'note'])
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label for="rooms">Total Amount</label>
+              <input type="text" class="form-control" value="{{ $purchase->total_amount}}">
             </div>
           </div>
         </div>
@@ -72,7 +93,7 @@
             @include('alerts.error-feedback', ['field' => 'description'])
 
             <datalist id="items_">
-              @foreach(getModelList('expense-items') as $item_)
+              @foreach(getModelList('store-items') as $item_)
               <option value="{{$item_->name}}">
               @endforeach
             </datalist>
@@ -85,6 +106,13 @@
             @include('alerts.error-feedback', ['field' => 'qty'])
           </div>
         </div>
+        <div class="col">
+            <div class="form-group">
+              <label for="rooms">Received</label>
+              <input id="received_0" name="new_item_received[]" type="number" onkeyup="updateAmount(0)" inputmode="decimal" min="0" step="any" class="form-control @error('received') is-invalid @enderror" placeholder="Received" value="{{ old('received') }}">
+              @include('alerts.error-feedback', ['field' => 'received'])
+            </div>
+          </div>
         <div class="col">
           <div class="form-group">
             <label for="rooms">Rate</label>
@@ -111,18 +139,19 @@
         </div>
       </div>
     </div>
+
     <div class="row no-gutters">
       <div id="input-container" class="col-lg card-form__body card-body">
-        @foreach($expense->items as $key => $item)
+        @foreach($purchase->items as $key => $item)
         <div id="" class="row">
           <div class="col">
             <div class="form-group">
               <label for="rooms">Item/Description</label>
-              <input id="{{_('description_'.$key)}}" name="description[]" type="text" list="items" class="form-control @error('description') is-invalid @enderror" placeholder="Name" value="{{ old('description') ?? $item->item->name }}">
+              <input id="{{_('description_'.$key)}}" name="description[]" type="text" list="items" class="form-control @error('description') is-invalid @enderror" placeholder="Name" value="{{ old('description') ?? $item->storeItem->name }}">
               @include('alerts.error-feedback', ['field' => 'description'])
-              <input type="hidden" name="item_id[]" value="{{$item->id}}">
+              <input type="hidden" name="purchase_store_item_id[]" value="{{$item->id}}">
               <datalist id="items">
-                @foreach(getModelList('expense-items') as $_item)
+                @foreach(getModelList('store-items') as $_item)
                 <option value="{{$_item->name}}">
                 @endforeach
               </datalist>
@@ -133,6 +162,13 @@
               <label for="rooms">Quantity</label>
               <input id="{{_('qty'.$key)}}" name="qty[]" type="number" onkeyup="updateAmount(<?php echo $key ?>)" inputmode="decimal" min="0" step="any" class="form-control @error('qty') is-invalid @enderror" placeholder="Qty" value="{{ old('qty') ?? $item->qty }}">
               @include('alerts.error-feedback', ['field' => 'qty'])
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label for="rooms">Received</label>
+              <input id="{{_('received'.$key)}}" name="received[]" type="number" onkeyup="updateAmount(<?php echo $key ?>)" inputmode="decimal" min="0" step="any" class="form-control @error('received') is-invalid @enderror" placeholder="Qty" value="{{ old('received') ?? $item->received }}">
+              @include('alerts.error-feedback', ['field' => 'received'])
             </div>
           </div>
           <div class="col">
@@ -175,7 +211,7 @@
   </div>
   </form>
 </div>
-<form class="d-none" id="form-delete" action="{{url('expenses/'.$expense->id)}}" onsubmit="return confirm('Are you sure you want to delete this expense?'); " method="post">
+<form class="d-none" id="form-delete" action="{{url('purchases/'.$purchase->id)}}" onsubmit="return confirm('Are you sure you want to delete this purchase?'); " method="post">
     @method('Delete')
     @csrf
 </form>
@@ -241,7 +277,7 @@
 
 </script>
 <script>
-  let inputCounter = <?php echo count($expense->items) - 1 ?>;
+  let inputCounter = <?php echo count($purchase->items) - 1 ?>;
 
   function updateAmount(index) {
     var qty = parseFloat($("#qty" + index).val()) || 0;

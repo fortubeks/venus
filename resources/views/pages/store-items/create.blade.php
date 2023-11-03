@@ -1,7 +1,7 @@
 @extends("layouts.default", [
-  'title' => 'Expense Categories',
+  'title' => 'Store Item',
   'breadcrumb' => [[
-    'title' => 'Expense Categories'
+    'title' => 'Store Item'
   ]],
   'new_button_label' => false
 ])
@@ -9,12 +9,12 @@
 @section('content')
 <div class="{{ $containerClass ?? 'container' }} page__container">
   <div class="card card-form">
-    <form action="{{url('expense-categories')}}" method="post" autocomplete="off">
+    <form action="{{url('store-items')}}" method="post" autocomplete="off">
     @csrf
     <div class="row no-gutters">
       <div class="col-lg-4 card-body">
         <p><strong class="headings-color">Basic Information</strong></p>
-        <p class="text-muted">Add your expense category.</p>
+        <p class="text-muted">Add your store item .</p>
       </div>
       <div class="col-lg-8 card-form__body card-body">
         <div class="row">
@@ -27,12 +27,15 @@
           </div>
           <div class="col">
             <div class="form-group">
-              <label for="rooms">Parent Category</label>
-              <select id="category" name="category" class="custom-select">
-                <option value="">--Select--</option>
-                @foreach(getModelList('expense-categories') as $expense_category)
-                <option value="{{$expense_category->id}}">{{$expense_category->name}}</option>
-                @endforeach
+              <label for="rooms">Purchase Category</label>
+              <select id="category" class="form-select form-control" name="purchase_category_id">
+                <option value="1">Food</option>
+                <option value="2">Drink</option>
+                <option value="3">House Keeping</option>
+                <option value="4">Maintenance</option>
+                <option value="5">Staff</option>
+                <option value="6">Admin/Stationery</option>
+                <option value="7">Others</option>
               </select>
               @include('alerts.error-feedback', ['field' => 'category'])
             </div>

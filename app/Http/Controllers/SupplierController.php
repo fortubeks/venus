@@ -37,10 +37,11 @@ class SupplierController extends Controller
     {
         $request->validate(  [
             'name' => 'required',
+            'contact_person_name' => 'required',
             'contact_person_phone' => 'required',
         ]);
         Supplier::create($request->all());
-        return redirect('suppliers')->with('status','Supplier added successfully');
+        return redirect('suppliers')->with('success','Supplier added successfully');
     }
 
     /**
