@@ -22,7 +22,7 @@
 
             <div class="form-group">
                 <x-label for="email" value="{{ __('Email') }}" />
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email') ?? 'james@doe.com'" required autofocus placeholder="{{ __('Enter your email') }}" />
+                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email') ?? 'jon@doe.com'" required autofocus placeholder="{{ __('Enter your email') }}" />
             </div>
 
             <div class="form-group">
