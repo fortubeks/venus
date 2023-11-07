@@ -3,11 +3,12 @@
   'breadcrumb' => [[
     'title' => 'Users'
   ]],
-  'new_button_label' => 'New User'
+  'new_button_label' => 'New User',
+  'new_button_slug' => '/users/create'
 ])
 
 @section('content')
-
+@include('alerts.feedback')
 <div class="{{ $containerClass ?? 'container' }} page__container">
   <div class="card card-form d-flex flex-column flex-sm-row">
     <div class="card-form__body card-body-form-group flex">

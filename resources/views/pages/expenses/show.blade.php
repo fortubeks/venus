@@ -118,7 +118,7 @@
           <div class="col">
             <div class="form-group">
               <label for="rooms">Item/Description</label>
-              <input id="{{_('description_'.$key)}}" name="description[]" type="text" list="items" class="form-control @error('description') is-invalid @enderror" placeholder="Name" value="{{ old('description') ?? $item->item->name }}">
+              <input id="{{__('description_'.$key)}}" name="description[]" type="text" list="items" class="form-control @error('description') is-invalid @enderror" placeholder="Name" value="{{ old('description') ?? $item->item->name }}">
               @include('alerts.error-feedback', ['field' => 'description'])
               <input type="hidden" name="item_id[]" value="{{$item->id}}">
               <datalist id="items">
@@ -131,28 +131,28 @@
           <div class="col">
             <div class="form-group">
               <label for="rooms">Quantity</label>
-              <input id="{{_('qty'.$key)}}" name="qty[]" type="number" onkeyup="updateAmount(<?php echo $key ?>)" inputmode="decimal" min="0" step="any" class="form-control @error('qty') is-invalid @enderror" placeholder="Qty" value="{{ old('qty') ?? $item->qty }}">
+              <input id="{{__('qty'.$key)}}" name="qty[]" type="number" onkeyup="updateAmount(<?php echo $key ?>)" inputmode="decimal" min="0" step="any" class="form-control @error('qty') is-invalid @enderror" placeholder="Qty" value="{{ old('qty') ?? $item->qty }}">
               @include('alerts.error-feedback', ['field' => 'qty'])
             </div>
           </div>
           <div class="col">
             <div class="form-group">
               <label for="rooms">Rate</label>
-              <input id="{{_('rate'.$key)}}" name="rate[]" type="number" onkeyup="updateAmount(<?php echo $key ?>)" inputmode="decimal" min="0" step="any" class="form-control @error('rate') is-invalid @enderror" placeholder="Rate" value="{{ old('rate') ?? $item->rate }}">
+              <input id="{{__('rate'.$key)}}" name="rate[]" type="number" onkeyup="updateAmount(<?php echo $key ?>)" inputmode="decimal" min="0" step="any" class="form-control @error('rate') is-invalid @enderror" placeholder="Rate" value="{{ old('rate') ?? $item->rate }}">
               @include('alerts.error-feedback', ['field' => 'rate'])
             </div>
           </div>
           <div class="col">
             <div class="form-group">
               <label for="rooms">Amount</label>
-              <input id="{{_('amount'.$key)}}" name="amount[]" type="number" class="form-control money @error('amount') is-invalid @enderror" placeholder="Amount" value="{{ old('amount') ?? $item->amount }}">
+              <input id="{{__('amount'.$key)}}" name="amount[]" type="number" class="form-control money @error('amount') is-invalid @enderror" placeholder="Amount" value="{{ old('amount') ?? $item->amount }}">
               @include('alerts.error-feedback', ['field' => 'amount'])
             </div>
           </div>
           <div class="col">
             <div class="form-group">
               <label for="rooms">Unit Qty</label>
-              <input id="{{_('unit_qty'.$key)}}" name="unit_qty[]" type="number" class="form-control money @error('unit_qty') is-invalid @enderror" placeholder="Unit Qty" value="{{ old('unit_qty') ?? $item->unit_qty }}">
+              <input id="{{__('unit_qty'.$key)}}" name="unit_qty[]" type="number" class="form-control money @error('unit_qty') is-invalid @enderror" placeholder="Unit Qty" value="{{ old('unit_qty') ?? $item->unit_qty }}">
               @include('alerts.error-feedback', ['field' => 'unit_qty'])
             </div>
           </div>

@@ -25,7 +25,10 @@ class UserController extends Controller
     }
 
     public function store(UserStoreRequest $request){
-        $user = User::create($request->validated());
+        $request->merge([
+            'user_account_id' => auth()->user()->user_account_id,
+        ]);
+        $user = User::create($request->all());
         $user->password = Hash::make($request->password);
         $user->save();
         

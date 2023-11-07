@@ -25,6 +25,7 @@ class User extends Authenticatable
         'phone',
         'user_type',
         'hotel_id',
+        'user_account_id'
     ];
 
     /**
