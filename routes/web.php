@@ -27,6 +27,10 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::resource('expense-payments', 'App\Http\Controllers\ExpensePaymentController');
 	Route::resource('purchases', 'App\Http\Controllers\PurchaseController');
 	Route::resource('store-items', 'App\Http\Controllers\StoreItemController');
+	Route::resource('room-reservations', 'App\Http\Controllers\RoomReservationController');
+	Route::resource('venue-reservations', 'App\Http\Controllers\VenueReservationController');
+	Route::resource('rooms', 'App\Http\Controllers\RoomController');
+	Route::resource('room-categories', 'App\Http\Controllers\RoomCategoryController');
 
 	Route::post('/updatePassword', 'App\Http\Controllers\UserController@updatePassword');
 	

@@ -15,6 +15,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('hotel_id');
             $table->string('name');
+            $table->double('rate');
+            $table->double('discounted_rate')->nullable();
+            $table->text('description')->nullable();
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }

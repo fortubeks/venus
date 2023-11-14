@@ -10,11 +10,14 @@
 
 <div class="{{ $containerClass ?? 'container' }} page__container">
   <div class="row card-group-row">
-    <div class="col-lg-3 col-md-8 card-group-row__col">
-        <div class="col-lg-3 col-md-12 card-group-row__col">
+    <div class="col-lg-12">
+      <div class="row">
+        <div class="col-md-12">
 
         </div>
-        <div class="col-lg-3 col-md-12 card-group-row__col">
+      </div>
+      <div class="row">
+        <div class="col-md-10">
           <div class="card">
             <div class="table-responsive">
 
@@ -58,17 +61,18 @@
                   @endforeach
                 </tbody>
               </table>
+              @if($pagination ?? '' !== false)
+              <div class="card-body text-right">
+                
+              </div>
+              @endif
             </div>
-
-            @if($pagination ?? '' !== false)
-            <div class="card-body text-right">
-              {{}}
-            </div>
-            @endif
           </div>
         </div>
-    </div>
-    <div class="col-lg-3 col-md-4 card-group-row__col">
+        <div class="col-md-2">
+          
+        </div>
+      </div>
         
     </div>
   </div>

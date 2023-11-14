@@ -20,6 +20,7 @@ return new class extends Migration
             $table->double('discounted_rate')->nullable();
             $table->smallInteger('status')->default(1);
             $table->text('description')->nullable();
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }

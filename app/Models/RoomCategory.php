@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class RoomCategory extends Model
 {
     use HasFactory;
+    protected $fillable = ['hotel_id','name','description','rate','discounted_rate','image'];
 }

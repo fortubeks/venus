@@ -7,7 +7,7 @@
     </li>
 
     <li class="sidebar-menu-item {{ activeClass('ui-buttons') }}">
-        <a class="sidebar-menu-button" href="{{ url('ui-buttons') }}">
+        <a class="sidebar-menu-button" href="{{ url('rooms') }}">
             <i class="sidebar-menu-icon sidebar-menu-icon--left material-icons">mouse</i>
             <span class="sidebar-menu-text">Rooms</span>
         </a>
