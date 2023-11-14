@@ -118,7 +118,7 @@
           <div class="col">
             <div class="form-group">
               <label for="rooms">Item/Description</label>
-              <input id="{{__('description_'.$key)}}" name="description[]" type="text" list="items" class="form-control @error('description') is-invalid @enderror" placeholder="Name" value="{{ old('description') ?? $item->item->name }}">
+              <input id="{{__('description_'.$key)}}" name="description[]" type="text" list="items" class="form-control @error('description') is-invalid @enderror" placeholder="Name" value="{{ old('description') ?? $item->expenseItem->name }}">
               @include('alerts.error-feedback', ['field' => 'description'])
               <input type="hidden" name="item_id[]" value="{{$item->id}}">
               <datalist id="items">
