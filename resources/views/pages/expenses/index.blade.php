@@ -45,6 +45,7 @@
             <th style="width: 30px;" class="text-center">#ID</th>
             <th>Date</th>
             <th>Category</th>
+            <th>Description</th>
             <th>Supplier</th>
             <th>Payment Status</th>
             <th class="text-right">Amount </th>
@@ -60,9 +61,8 @@
             <td>
               <a href="{{url('expenses/'.$expense->id)}}">{{ $expense->expense_date ?? '' }}</a>
             </td>
-            <td class="">
-              {{ $expense->category->name ?? '' }}
-            </td>
+            <td class="">{{ $expense->category->name ?? '' }}</td>
+            <td class="">{{ $expense->getItems() ?? '' }}</td>
             <td class="">{{ $expense->supplier->name ?? '' }}</td>
             <td class="">{{ $expense->paymentStatus() ?? '' }}</td>
             <td class="text-right">

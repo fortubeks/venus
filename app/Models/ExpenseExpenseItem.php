@@ -10,7 +10,7 @@ class ExpenseExpenseItem extends Model
     use HasFactory;
     protected $fillable = ['expense_id','expense_item_id','hotel_id','qty',
     'rate','amount','unit_qty'];
-    public function item(){
+    public function expenseItem(){
         return $this->belongsTo(ExpenseItem::class,'expense_item_id');
     }
 }

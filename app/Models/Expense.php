@@ -23,7 +23,17 @@ class Expense extends Model
         return $this->belongsTo('App\Models\ExpenseCategory','category_id');
     }
     public function items(){
-        return $this->hasMany('App\Models\ExpenseExpenseItem');
+        return $this->hasMany('App\Models\ExpenseExpenseItem','expense_item_id');
+    }
+    public function getItems()
+    {
+        $itemsString = '';
+        $itemNames = $this->items->map(function ($expenseItem) {
+            return $expenseItem->expenseItem->name;
+        })->toArray();
+
+        $itemsString = implode(', ', $itemNames);
+        return $itemsString;
     }
     public function paymentStatus(){
         $status = "Not Paid";
