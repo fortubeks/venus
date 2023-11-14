@@ -132,7 +132,7 @@ class ExpenseController extends Controller
         'note' => $request->note
         ]);
         foreach($request->item_id as $key => $item_id){
-            $expense_item = ExpenseItem::find($item_id);
+            $expense_item = ExpenseExpenseItem::find($item_id);
             
             $expense_item->update([
                 'qty' => $request->qty[$key],

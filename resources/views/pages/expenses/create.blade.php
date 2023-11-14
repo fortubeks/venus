@@ -101,7 +101,7 @@
           <div class="col">
             <div class="form-group">
               <label for="rooms">Unit Qty</label>
-              <input id="unitQty_0" name="unit_qty[]" type="number" class="form-control money @error('unit_qty') is-invalid @enderror" placeholder="Unit Qty" value="{{ old('unit_qty') }}">
+              <input id="unitQty_0" name="unit_qty[]" type="number" inputmode="decimal" min="0" step="any" class="form-control money @error('unit_qty') is-invalid @enderror" placeholder="Unit Qty" value="{{ old('unit_qty') }}">
               @include('alerts.error-feedback', ['field' => 'unit_qty'])
             </div>
           </div>
