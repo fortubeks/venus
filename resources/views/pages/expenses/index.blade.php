@@ -49,10 +49,10 @@
         </div>
         <div class="col">
           <div class="row">
-            <p>Total: {{(($total_amount)) ? formatCurrency($total_amount) : ''}}</p>
+            <p>Total: {{isset($total_amount) ? formatCurrency($total_amount) : ''}}</p>
           </div>
           <div class="row">
-            <p>Average: {{(($average)) ? formatCurrency($average) : ''}}</p>
+            <p>Average: {{isset($average) ? formatCurrency($average) : ''}}</p>
           </div>
         </div>
         <div class="col-1">
