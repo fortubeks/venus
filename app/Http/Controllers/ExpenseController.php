@@ -8,6 +8,7 @@ use App\Models\ExpenseExpenseItem;
 use App\Models\ExpenseItem;
 use App\Models\ExpensePayment;
 use App\Models\Item;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ExpenseController extends Controller
@@ -191,7 +192,7 @@ class ExpenseController extends Controller
         return redirect('expenses')->with('success','Expense deleted successfully');
     }
 
-    public function filterExpenses(Request $request){
+    public function filter_Expenses(Request $request){
         $_expenses = Expense::whereBetween('created_at', [$request->filter_from, $request->filter_to]);
         $expenses = $_expenses->paginate(15)->appends([
             'filter_from' => request('filter_from'),
@@ -200,5 +201,73 @@ class ExpenseController extends Controller
         $expenses_sum = $_expenses->sum('amount');
         $expenses_count = $_expenses->count();
         return view('expenses.index')->with(compact('expenses','expenses_count','expenses_sum'));
+    }
+
+    public function filterExpenses(Request $request){
+        // $validatedData = $request->validate([
+        //     'start_date' => ['required'],
+        //     'end_date' => ['required'],
+        // ]);
+        //get all orders within a time range
+        //get all invoices on those orders
+        //get all payments made on those invoices
+        $start_date = '';
+        $end_date = '';
+        
+        if(isset($request->date_range)){
+            switch ($request->date_range) {
+                case "this-month":
+                    $start_date = Carbon::now()->startOfMonth()->format('Y-m-d');
+                    $end_date = Carbon::now()->endOfMonth()->format('Y-m-d');
+                    break;
+        
+                case "last-month":
+                    $start_date = Carbon::now()->subMonth()->startOfMonth()->format('Y-m-d');
+                    $end_date = Carbon::now()->subMonth()->endOfMonth()->format('Y-m-d');
+                    break;
+        
+                case "last-3":
+                    $start_date = Carbon::now()->subMonths(2)->startOfMonth()->format('Y-m-d');
+                    $end_date = Carbon::now()->endOfMonth()->format('Y-m-d');
+                    break;
+        
+                case "last-6":
+                    $start_date = Carbon::now()->subMonths(5)->startOfMonth()->format('Y-m-d');
+                    $end_date = Carbon::now()->endOfMonth()->format('Y-m-d');
+                    break;
+        
+                case "this-y":
+                    $start_date = Carbon::now()->startOfYear()->format('Y-m-d');
+                    $end_date = Carbon::now()->endOfYear()->format('Y-m-d');
+                    break;
+        
+                case "all-time":
+                    // You might set a reasonable "all-time" range, e.g., the past 5 years
+                    $startDate = Carbon::now()->subYears(5)->format('Y-m-d');
+                    $end_date = Carbon::now()->format('Y-m-d');
+                    break;
+        
+                // Add more cases for other options as needed
+        
+                default:
+                    // Handle the default case or set default date range
+                    break;
+            }
+        }
+        $expense_category = ExpenseCategory::find($request->category_id);
+
+        $_expenses_query = $expense_category->expenses()->whereBetween('created_at',[$start_date,$end_date]);
+        $total_amount = $_expenses_query->sum('amount');
+        $expenses_count = $_expenses_query->count();
+        $average = $total_amount/$expenses_count;
+        $expenses = $_expenses_query->paginate(10)->appends([
+            'date_range' => request('date_range'),
+            'total_amount' => $total_amount,
+            'expenses_count' => $expenses_count,
+            'average' => $average,
+            ]);
+
+        
+        return view('pages.expenses.index')->with(compact('total_amount','expenses','average','expenses_count'));
     }
 }

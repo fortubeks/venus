@@ -3,11 +3,15 @@
 use App\Models\Expense;
 use App\Models\ExpenseCategory;
 use App\Models\ExpenseItem;
+use App\Models\Guest;
 use App\Models\Item;
 use App\Models\PurchaseItem;
+use App\Models\Room;
+use App\Models\RoomCategory;
 use App\Models\StoreItem;
 use App\Models\Supplier;
 use Illuminate\Support\Facades\DB;
+use Magarrent\LaravelCurrencyFormatter\Facades\Currency;
 
 if (!function_exists('title')) {
   function title($title = null)
@@ -43,6 +47,17 @@ if (!function_exists('arrayToObject')) {
     }
   }
 }
+function formatCurrency($amount){
+  // $user = User::find(auth()->user()->user_account_id);
+  // $business_currency = $user->app_settings->business_currency ?: "NGN";
+  
+  // if($business_currency == 'GHS'){
+  //     return 'GHc '.number_format($amount,2,".",",");
+  // }
+  //return Currency::currency($business_currency)->format($amount);
+  $f = (float)$amount;
+  return Currency::currency("NGN")->format($f);
+}
 function getModelList($model){
   $model_list = null;
 
@@ -63,6 +78,15 @@ function getModelList($model){
   }
   if($model == 'store-items'){
     $model_list = StoreItem::where('hotel_id',auth()->user()->hotel_id)->get();
+  }
+  if($model == 'room-categories'){
+    $model_list = RoomCategory::where('hotel_id',auth()->user()->hotel_id)->get();
+  }
+  if($model == 'rooms'){
+    $model_list = Room::where('hotel_id',auth()->user()->hotel_id)->get();
+  }
+  if($model == 'guests'){
+    $model_list = Guest::where('hotel_id',auth()->user()->hotel_id)->get();
   }
   return $model_list;
 }

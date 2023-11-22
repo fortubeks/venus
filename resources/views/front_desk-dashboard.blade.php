@@ -7,7 +7,7 @@
 ])
 
 @section('content')
-
+@include('alerts.feedback')
 <div class="{{ $containerClass ?? 'container' }} page__container">
   <div class="row card-group-row">
     <div class="col-lg-12">
@@ -34,37 +34,39 @@
                   </tr>
                 </thead>
                 <tbody class="list" id="">
-                  @foreach($rooms ?? [] as $room)
+                  @foreach(getModelList('rooms') ?? [] as $room)
                   @php 
-                  $reservation = $room->hasReservation($dashboard_date); @endphp
+                  $reservation = $room->hasReservation($dashboard_date ?? now()); 
+                  @endphp
                   <tr>
                     <td>
                       <div class="badge badge-soft-dark">#{{ $room->name }}</div>
                     </td>
+                    
                     <td>
-                      @if($reservation)
-                      <a href="{{url('reservation/'.$reservation->id)}}">{{ $reservation->guest->first_name ?? '' }}</a>
-                      @else
+                      <a href="{{url('rooms/'.$room->id)}}">{{ $reservation->guest->first_name ?? '' }}</a>
                       
-                      @endif
                     </td>
-                    <td class="">{{ $$reservation->check_in_date ?? '' }}</td>
-                    <td class="">{{ $$reservation->checked_in_at ?? '' }}</td>
+                    <td class="">{{ $reservation->check_in_date ?? '' }}</td>
+                    <td class="">{{ $reservation->checked_in_at ?? '' }}</td>
                     <td class="">{{ $reservation->checked_out_at ?? '' }}</td>
-                    <td class="">{{ $reservation->paymentStatus() ?? '' }}</td>
+                    <td class="">{{ (($reservation)) ? $reservation->paymentStatus() : '' }}</td>
                     <td class="text-right">{{ $reservation->amount ?? '' }}</td>
                     <td class="text-right">
+                      @if($reservation)
                       <a href="{{url('reservation/'.$reservation->id)}}" class="btn btn-sm btn-primary">Preview</a>
                       <a href="{{url('reservation/'.$reservation->id)}}" class="btn btn-sm btn-primary">EDIT</a>
+                      @else
+                      <a href="{{url('room-reservations/create?room='.$room->id)}}" class="btn btn-sm btn-primary">BOOK</a>
+                      @endif
                     </td>
+                    
                   </tr>
                   @endforeach
                 </tbody>
               </table>
               @if($pagination ?? '' !== false)
-              <div class="card-body text-right">
-                
-              </div>
+              
               @endif
             </div>
           </div>

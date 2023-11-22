@@ -1,66 +1,28 @@
 @extends("layouts.default", [
-  'title' => 'Expenses',
+  'title' => 'Room Reservations',
   'breadcrumb' => [[
-    'title' => 'Expenses'
+    'title' => 'Room Reservations'
   ]],
-  'new_button_label' => 'New Expense',
-  'new_button_slug' => '/expenses/create'
+  'new_button_label' => 'New Reservation',
+  'new_button_slug' => '/room-reservations/create'
 ])
 
 @section('content')
 @include('alerts.feedback')
 <div class="{{ $containerClass ?? 'container' }} page__container">
   <div class="card card-form d-flex flex-column flex-sm-row">
-    <form method="post" action="{{url('filter-expenses')}}">
-      @csrf
     <div class="card-form__body card-body-form-group flex">
       <div class="row">
         <div class="col">
           <div class="form-group">
-            <label for="phone">Expense Category</label>
-            <select id="category" class="form-select form-control" name="category_id">
-                @foreach(getModelList('expense-categories') as $expense_category)
-                <option value="{{$expense_category->id}}">{{$expense_category->name}}</option>
-                @endforeach
-            </select>
+            <label for="filter_name">Name</label>
+            <input id="filter_name" type="text" class="form-control" placeholder="Search by name">
           </div>
         </div>
-        <div class="col">
-          <div class="form-group">
-            <label for="phone">Time Frame</label>
-            <select name="date_range" class="form-select form-control filter-by-status" id="filter-by-status">
-              <option selected value="">Filter By Date</option>
-              <option value="this-week">This Week</option>
-              <option value="last-week">Last Week</option>
-              <option value="this-month">This Month</option>
-              <option value="last-month">Last Month</option>
-              <option value="last-3">Last 3 Months</option>
-              <option value="last-6">Last 6 Months</option>
-              <option value="this-y">This Year</option>
-              <option value="all-time">All Time</option>
-            </select>
-          </div>
-        </div>
-        <div class="col">
-          <div class="form-group">
-            <label for="filter_name">Description</label>
-            <input id="filter_name" type="text" class="form-control" placeholder="Search by Supplier">
-          </div>
-        </div>
-        <div class="col">
-          <div class="row">
-            <p>Total: {{(($total_amount)) ? formatCurrency($total_amount) : ''}}</p>
-          </div>
-          <div class="row">
-            <p>Average: {{(($average)) ? formatCurrency($average) : ''}}</p>
-          </div>
-        </div>
-        <div class="col-1">
-        <button type="submit" class="btn bg-white border-left border-top border-top-sm-0 rounded-top-0 rounded-top-sm rounded-left-sm-0"><i class="material-icons text-primary icon-20pt">refresh</i></button>
-        </div>
+        
       </div>
     </div>
-    </form>
+    <button class="btn bg-white border-left border-top border-top-sm-0 rounded-top-0 rounded-top-sm rounded-left-sm-0"><i class="material-icons text-primary icon-20pt">refresh</i></button>
   </div>
 
   <div class="card">
@@ -92,7 +54,9 @@
             <td class="">{{ $expense->getItems() ?? '' }}</td>
             <td class="">{{ $expense->supplier->name ?? '' }}</td>
             <td class="">{{ $expense->paymentStatus() ?? '' }}</td>
-            <td class="text-right">{{ formatCurrency($expense->amount) ?? '' }}</td>
+            <td class="text-right">
+              {{ $expense->amount ?? '' }}
+            </td>
             <td class="text-right">
               <a href="{{url('expenses/'.$expense->id)}}" class="btn btn-sm btn-primary">Preview</a>
               <a href="#" onclick="setId(this)" data-amount="{{$expense->amount}}" data-id="{{$expense->id}}" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal-payment">Add Payment</a>

@@ -32,6 +32,8 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::resource('rooms', 'App\Http\Controllers\RoomController');
 	Route::resource('room-categories', 'App\Http\Controllers\RoomCategoryController');
 
+	Route::post('filter-expenses', 'App\Http\Controllers\ExpenseController@filterExpenses');
+
 	Route::post('/updatePassword', 'App\Http\Controllers\UserController@updatePassword');
 	
     Route::get('/home', 'App\Http\Controllers\HomeController@index')->name('home');

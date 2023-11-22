@@ -8,7 +8,7 @@
 
 @section('content')
 <div class="{{ $containerClass ?? 'container' }} page__container">
-<div class="card card-form">
+  <div class="card card-form">
     <form action="{{url('expense-categories/'.$expense_category->id)}}" method="post" autocomplete="off">
     @csrf @method('put')
     <div class="row no-gutters">

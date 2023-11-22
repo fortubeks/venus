@@ -36,8 +36,9 @@ class RoomController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'category' => 'required',
-            'name' => 'required'
+            'room_category_id' => 'required',
+            'name' => 'required',
+            'rate' => 'required'
         ]);
         $request->merge(['hotel_id' => auth()->user()->hotel_id]);
         $room = Room::create($request->all());

@@ -14,7 +14,7 @@ class RoomCategoryController extends Controller
      */
     public function index(RoomCategory $model)
     {
-        return view('pages.rooms.index', ['rooms' => $model->where('hotel_id',auth()->user()->hotel_id)->get()]);
+        return view('pages.room-categories.index', ['room_categories' => $model->where('hotel_id',auth()->user()->hotel_id)->get()]);
     }
 
     /**
@@ -24,7 +24,7 @@ class RoomCategoryController extends Controller
      */
     public function create()
     {
-        return view('pages.rooms.create');
+        return view('pages.room-categories.create');
     }
 
     /**
@@ -50,9 +50,9 @@ class RoomCategoryController extends Controller
      * @param  \App\Models\RoomCategory  $rooms
      * @return \Illuminate\Http\Response
      */
-    public function show(RoomCategory $category)
+    public function show(RoomCategory $room_category)
     {
-        return view('pages.room-categories.show')->with('category',$category);
+        return view('pages.room-categories.show')->with('room_category',$room_category);
     }
 
     /**
@@ -73,9 +73,9 @@ class RoomCategoryController extends Controller
      * @param  \App\Models\RoomCategory  $rooms
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, RoomCategory $category)
+    public function update(Request $request, RoomCategory $room_category)
     {
-        $category->update($request->all());
+        $room_category->update($request->all());
         return redirect('room-categories')->with('success','RoomCategory updated successfully');
     }
 
@@ -85,9 +85,9 @@ class RoomCategoryController extends Controller
      * @param  \App\Models\RoomCategory  $rooms
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, RoomCategory $category)
+    public function destroy(Request $request, RoomCategory $room_category)
     {
-        $category->delete();
+        $room_category->delete();
         return redirect('room-categories')->with('success','RoomCategory deleted successfully');
     }
 }

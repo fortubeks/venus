@@ -17,6 +17,8 @@ return new class extends Migration
             $table->foreignId('room_id');
             $table->foreignId('user_id');
             $table->foreignId('hotel_id');
+            $table->double('rate');
+            $table->double('total_amount');
             $table->timestamp('checkin_date')->nullable();
             $table->timestamp('checkout_date')->nullable();
             $table->smallInteger('status')->default(0);
