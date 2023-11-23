@@ -22,13 +22,13 @@
     </div>
     <div class="col-md-3">
       <div class="form-group">
-        <input type="text" class="form-control @error('checkin_date') is-invalid @enderror" name="checkin_date" data-toggle="flatpickr" value="today">
+        <input type="text" required class="form-control @error('checkin_date') is-invalid @enderror dates" name="checkin_date" data-toggle="flatpickr" value="today">
         @include('alerts.error-feedback', ['field' => 'checkin_date'])
       </div>
     </div>
     <div class="col-md-3">
       <div class="form-group">
-        <input type="text" placeholder="Checkout Date" class="form-control @error('checkout_date') is-invalid @enderror" name="checkout_date" data-toggle="flatpickr" >
+        <input type="text" required placeholder="Checkout Date" class="form-control @error('checkout_date') is-invalid @enderror dates" name="checkout_date" data-toggle="flatpickr" >
         @include('alerts.error-feedback', ['field' => 'checkout_date'])
       </div>
     </div>
@@ -47,7 +47,7 @@
                  <option value="Mrs">Mrs</option>
                  <option value="Chief">Chief</option>
               </select>
-              @include('alerts.error-feedback', ['field' => 'category'])
+              @include('alerts.error-feedback', ['field' => 'title'])
             </div>
           </div>
           <div class="col-md-4">
@@ -197,6 +197,38 @@
         // Trigger an initial update of the amount for the new input
         updateAmount(inputCounter);
       });
+
+      $('.dates').change(function() {
+        // Get the selected date
+        var checkInDate = $('#checkin_date').val();
+        var checkOutDate = $('#checkout_date').val();
+
+        // Perform an Ajax request to check room availability
+        $.ajax({
+            url: '/check-room-availability',
+            method: 'POST',
+            data: {
+                checkin_date: checkInDate,
+                checkout_date: checkOutDate,
+                // Add other necessary data if needed
+            },
+            success: function(response) {
+                // Handle the response
+                if (response.available) {
+                    // Rooms are available
+                    alert('Rooms are available on ' + selectedDate);
+                } else {
+                    // Rooms are not available
+                    alert('No available rooms on ' + selectedDate);
+                }
+            },
+            error: function(error) {
+                // Handle the error
+                console.error('Ajax request failed:', error);
+            }
+        });
+    });
+
     });
 </script>
 <script>
