@@ -11,7 +11,7 @@
 @include('alerts.feedback')
 <div class="{{ $containerClass ?? 'container' }} page__container">
   <div class="card card-form d-flex flex-column flex-sm-row">
-    <form method="post" action="{{url('filter-expenses')}}">
+    <form method="get" action="{{url('filter-expenses')}}">
       @csrf
     <div class="card-form__body card-body-form-group flex">
       <div class="row">
@@ -44,7 +44,7 @@
         <div class="col">
           <div class="form-group">
             <label for="filter_name">Description</label>
-            <input id="filter_name" type="text" class="form-control" placeholder="Search by Supplier">
+            <input type="text" class="form-control" name="description" placeholder="Search term">
           </div>
         </div>
         <div class="col">

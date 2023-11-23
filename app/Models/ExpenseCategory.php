@@ -24,4 +24,8 @@ class ExpenseCategory extends Model
     {
         return $this->belongsTo('App\Models\ExpenseCategory','parent_id');
     }
+    public function expenseItem()
+    {
+        return $this->hasMany('App\Models\ExpenseItem','expense_category_id');
+    }
 }

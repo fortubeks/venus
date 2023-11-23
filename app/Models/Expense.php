@@ -25,6 +25,15 @@ class Expense extends Model
     public function items(){
         return $this->hasMany('App\Models\ExpenseExpenseItem','expense_id');
     }
+    // public function expenseItems(){
+    //     return $this->hasMany('App\Models\ExpenseItem','expense_id');
+    // }
+    public function expenseItems()
+    {
+        return $this->belongsToMany(ExpenseItem::class, 'expense_expense_items', 'expense_id', 'expense_item_id')
+            ->withPivot('qty', 'rate', 'amount', 'unit_qty');
+    }
+    
     public function getItems()
     {
         $itemsString = '';

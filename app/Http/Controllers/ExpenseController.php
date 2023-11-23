@@ -265,12 +265,48 @@ class ExpenseController extends Controller
         
         $expense_category = ExpenseCategory::find($request->category_id);
 
-        $_expenses_query = $expense_category->expenses()->whereBetween('created_at',[$start_date,$end_date]);
+        // $_expenses_query = $expense_category->expenses()->whereBetween('created_at',[$start_date,$end_date])
+        // ->when(request('description'), function ($query, $description) {
+        //     return $query->where('description', 'like', '%' . $description . '%');
+        // });
+
+        // $_expenses_query = $expense_category->expenses()
+        // ->whereBetween('created_at', [$start_date, $end_date])
+        // ->when(request('description'), function ($query, $description) {
+        //     return $query->orWhereHas('items', function ($item) use ($description) {
+        //         $item->where('name', 'like', '%' . $description . '%');
+        //     });
+        // });
+
+        // $_expenses_query = $expense_category->expenses()
+        // ->where('hotel_id',auth()->user()->hotel_id)
+        // ->whereBetween('created_at', [$start_date, $end_date])
+        // ->when(request('description'), function ($query, $description) {
+        //     return $query->where(function ($subquery) use ($description) {
+        //         $subquery->orWhereHas('items', function ($item) use ($description) {
+        //             $item->where('name', 'like', '%' . $description . '%');
+        //         })->orWhereHas('expenseItems', function ($expenseItem) use ($description) {
+        //             $expenseItem->where('description', 'like', '%' . $description . '%');
+        //         });
+        //     });
+        // });
+        $_expenses_query = $expense_category->expenses()
+        ->where('hotel_id',auth()->user()->hotel_id)
+        ->whereBetween('created_at', [$start_date, $end_date])
+        ->when(request('description'), function ($query, $description) {
+            return $query->whereHas('expenseItems', function ($item) use ($description) {
+                $item->where('name', 'like', '%' . $description . '%');
+            });
+        });
+        //dd($_expenses_query->get());
+
         $total_amount = $_expenses_query->sum('amount');
         $expenses_count = $_expenses_query->count();
         $average = $expenses_count !== 0 ? $total_amount / $expenses_count : 0;
         $expenses = $_expenses_query->paginate(10)->appends([
             'date_range' => request('date_range'),
+            'catgeory_id' => request('catgeory_id'),
+            'description' => request('description'),
             'total_amount' => $total_amount,
             'expenses_count' => $expenses_count,
             'average' => $average,
