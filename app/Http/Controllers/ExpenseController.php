@@ -305,7 +305,7 @@ class ExpenseController extends Controller
         $average = $expenses_count !== 0 ? $total_amount / $expenses_count : 0;
         $expenses = $_expenses_query->paginate(10)->appends([
             'date_range' => request('date_range'),
-            'catgeory_id' => request('catgeory_id'),
+            'category_id' => request('category_id'),
             'description' => request('description'),
             'total_amount' => $total_amount,
             'expenses_count' => $expenses_count,
