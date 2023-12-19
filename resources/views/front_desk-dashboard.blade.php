@@ -3,7 +3,8 @@
   'breadcrumb' => [[
     'title' => 'Dashboard'
   ]],
-  'new_button_label' => false
+  'new_button_label' => 'New Room Reservation',
+  'new_button_slug' => '/room-reservations/create'
 ])
 
 @section('content')
@@ -12,7 +13,19 @@
   <div class="row card-group-row">
     <div class="col-lg-12">
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-4">
+
+        </div>
+        <div class="col-md-2">
+
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+          <input type="text" required class="form-control @error('checkin_date') is-invalid @enderror dates" name="checkin_date" data-toggle="flatpickr" value="today">
+          @include('alerts.error-feedback', ['field' => 'checkin_date'])
+          </div>
+        </div>
+        <div class="col-md-2">
 
         </div>
       </div>

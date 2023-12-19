@@ -263,6 +263,7 @@ class ExpenseController extends Controller
                 break;
         }
         
+        
         $expense_category = ExpenseCategory::find($request->category_id);
 
         // $_expenses_query = $expense_category->expenses()->whereBetween('created_at',[$start_date,$end_date])
@@ -292,7 +293,7 @@ class ExpenseController extends Controller
         // });
         $_expenses_query = $expense_category->expenses()
         ->where('hotel_id',auth()->user()->hotel_id)
-        ->whereBetween('created_at', [$start_date, $end_date])
+        ->whereBetween('expense_date', [$start_date, $end_date])
         ->when(request('description'), function ($query, $description) {
             return $query->whereHas('expenseItems', function ($item) use ($description) {
                 $item->where('name', 'like', '%' . $description . '%');
